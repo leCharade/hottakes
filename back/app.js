@@ -2,13 +2,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const helmet = require('helmet');
+const dotenv = require('dotenv')
+
+dotenv.config();
 
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
 const app = express();
 
-mongoose.connect('mongodb+srv://leCharade:Ras3Ad4Nyk@charadecluster.c4ftnar.mongodb.net/p6-hot-takes',
+mongoose.connect(process.env.MONGODB_ACCESS,
     { useNewUrlParser: true,
         useUnifiedTopology: true })
     .then(() => console.log('Connexion à MongoDB réussie !'))
