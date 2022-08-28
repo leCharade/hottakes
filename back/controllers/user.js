@@ -10,9 +10,16 @@ exports.signup = (req, res, next) => {
                 email: req.body.email,
                 password: hash
             });
-            user.save()
-                .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-                .catch(error => res.status(400).json({ error }));
+            console.log(user.email);
+            if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user.email)) {
+                user.save()
+                    .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+                    .catch(error => res.status(400).json({ error }));
+            }
+            else {
+                res.status(401).json({ message: 'Entrez une adresse email valable (format exemple@piiquante.com).'});
+            }
+            
         })
         .catch(error => res.status(500).json({ error }));
 };
