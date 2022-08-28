@@ -4,24 +4,30 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/user');
 
 exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10)
-        .then(hash => {
-            const user = new User({
-                email: req.body.email,
-                password: hash
-            });
-            console.log(user.email);
-            if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user.email)) {
-                user.save()
-                    .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-                    .catch(error => res.status(400).json({ error }));
-            }
-            else {
-                res.status(401).json({ message: 'Entrez une adresse email valable (format exemple@piiquante.com).'});
-            }
-            
-        })
-        .catch(error => res.status(500).json({ error }));
+    // console.log(req.body.password);
+    // if (RegExp('\w').test(req.body.password)) {
+        bcrypt.hash(req.body.password, 10)
+            .then(hash => {
+                const user = new User({
+                    email: req.body.email,
+                    password: hash
+                });
+                console.log(user.email);
+                if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user.email)) {
+                    user.save()
+                        .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+                        .catch(error => res.status(400).json({ error }));
+                }
+                else {
+                    res.status(401).json({ message: 'Entrez une adresse email valable (format exemple@piiquante.com).'});
+                }
+                
+            })
+            .catch(error => res.status(500).json({ error }));
+    // }
+    // else {
+    //     res.status(401).json({ message: 'Entrez un mot de passe fort.'})
+    // }
 };
 
 exports.login = (req, res, next) => {
@@ -39,7 +45,7 @@ exports.login = (req, res, next) => {
                                 userId: user._id,
                                 token: jwt.sign(
                                     { userId: user._id },
-                                    'RANDOM_TOKEN_SECRET',
+                                    'b7a557db95a568c485f8906afae3d239144c4fc6452c7ce6837fd55ae803a0defadb48e96ceb0882d40b34afe6d8a216909fda98300da479a4734be3147d63b6f5b0ccfad2071ebc354e30e029588157',
                                     { expiresIn: '24h' }
                                 )
                             });
