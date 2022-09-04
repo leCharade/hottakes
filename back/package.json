@@ -21,7 +21,9 @@
     "mongoose": "^6.5.0",
     "mongoose-unique-validator": "^3.1.0",
     "multer": "^1.4.5-lts.1",
+    "openssl": "^2.0.0",
     "openssl-nodejs": "^1.0.5",
+    "password-validator": "^5.3.0",
     "uuid": "^8.3.2"
   }
 }

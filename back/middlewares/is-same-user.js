@@ -11,10 +11,10 @@ module.exports = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
         .then (sauce => {
             if (sauce.userId == userId) {
-                res.status(401).json({ message: "Vous n'avez pas la permission d'effectuer cette action !" })
+                next();
             }
             else {
-                next();
+                res.status(401).json({ message: "Vous n'avez pas la permission d'effectuer cette action !" })
             }
         })
         .catch (error => res.status(500).json({ error }))         

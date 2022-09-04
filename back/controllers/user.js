@@ -7,30 +7,24 @@ dotenv.config();
 const User = require('../models/user');
 
 exports.signup = (req, res, next) => {
-    // console.log(req.body.password);
-    // if (RegExp('\w').test(req.body.password)) {
-        bcrypt.hash(req.body.password, 10)
-            .then(hash => {
-                const user = new User({
-                    email: req.body.email,
-                    password: hash
-                });
-                console.log(user.email);
-                if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user.email)) {
-                    user.save()
-                        .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-                        .catch(error => res.status(400).json({ error }));
-                }
-                else {
-                    res.status(401).json({ message: 'Entrez une adresse email valable (format exemple@piiquante.com).'});
-                }
-                
-            })
-            .catch(error => res.status(500).json({ error }));
-    // }
-    // else {
-    //     res.status(401).json({ message: 'Entrez un mot de passe fort.'})
-    // }
+    bcrypt.hash(req.body.password, 10)
+        .then(hash => {
+            const user = new User({
+                email: req.body.email,
+                password: hash
+            });
+            console.log(user.email);
+            if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user.email)) {
+                user.save()
+                    .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+                    .catch(error => res.status(400).json({ error }));
+            }
+            else {
+                res.status(401).json({ message: 'Entrez une adresse email valable (format exemple@piiquante.com).'});
+            }
+            
+        })
+        .catch(error => res.status(500).json({ error }));
 };
 
 exports.login = (req, res, next) => {
