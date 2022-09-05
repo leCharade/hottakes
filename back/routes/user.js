@@ -1,3 +1,4 @@
+// Imports
 const express = require('express');
 const router = express.Router();
 const passwordValidator = require('../middlewares/password-validator');

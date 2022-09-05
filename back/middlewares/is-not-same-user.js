@@ -1,7 +1,9 @@
+// Imports
 const jwt = require('jsonwebtoken');
 const Sauce = require('../models/sauce');
 const dotenv = require('dotenv');
 
+// Récupération des données dotenv
 dotenv.config();
 
 module.exports = (req, res, next) => {

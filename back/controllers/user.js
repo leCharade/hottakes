@@ -1,11 +1,14 @@
+// Imports
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 
+// Récupération des données dotenv
 dotenv.config();
 
 const User = require('../models/user');
 
+// Inscription d'utilisateur
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
@@ -13,7 +16,7 @@ exports.signup = (req, res, next) => {
                 email: req.body.email,
                 password: hash
             });
-            console.log(user.email);
+            // Si l'utilisateur a un format d'email valable, le compte est créé
             if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user.email)) {
                 user.save()
                     .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
@@ -27,6 +30,7 @@ exports.signup = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 };
 
+// Connexion de l'utilisateur
 exports.login = (req, res, next) => {
     User.findOne({email: req.body.email})
         .then(user => {
